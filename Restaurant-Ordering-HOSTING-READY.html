@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#C8102E">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Nepali Food">
+<meta name="format-detection" content="telephone=no">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%23C8102E'/%3E%3Ctext x='50' y='68' font-size='56' text-anchor='middle'%3E%F0%9F%8D%9B%3C/text%3E%3C/svg%3E">
+<title>Nepali Online Food</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--red:#C8102E;--red2:#9d0b23;--blue:#003893;--ink:#14213d;--mut:#6b7389;--bg:#f3f4f8;--card:#fff;--ln:#e6e8f0;--ok:#1f9d57;--warn:#e8890c;--r:16px}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:'Poppins',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:14px}
+html{overscroll-behavior-y:contain;-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{touch-action:manipulation;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+input,textarea,select{-webkit-user-select:text;user-select:text;touch-action:manipulation}
+.splash{position:fixed;inset:0;z-index:200;background:linear-gradient(160deg,var(--red),var(--red2) 60%,var(--blue));color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;transition:opacity .4s}
+.splash .lg{width:96px;height:96px;border-radius:28px;background:#fff;display:grid;place-items:center;font-size:54px;animation:pop .6s both;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.splash h1{margin:14px 0 0;font-size:24px}.splash small{opacity:.85}.splash .ld{width:120px;height:4px;background:rgba(255,255,255,.3);border-radius:9px;margin-top:26px;overflow:hidden}.splash .ld i{display:block;height:100%;width:40%;background:#fff;border-radius:9px;animation:ld 1s infinite alternate ease-in-out}
+@keyframes ld{to{transform:translateX(150%)}}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none}
+#app{max-width:520px;margin:0 auto;min-height:100vh;background:var(--bg);position:relative;padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
+header.top{position:sticky;top:0;z-index:20;background:linear-gradient(135deg,var(--red),var(--red2));color:#fff;padding:calc(12px + env(safe-area-inset-top,0px)) 16px 14px;border-radius:0 0 22px 22px;box-shadow:0 6px 18px rgba(157,11,35,.25)}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{width:40px;height:40px;border-radius:12px;background:#fff;display:grid;place-items:center;font-size:22px}
+.brand h1{margin:0;font-size:17px;font-weight:700;line-height:1.1}
+.brand small{opacity:.85;font-size:11px}
+.search{margin-top:12px;display:flex;align-items:center;gap:8px;background:#fff;border-radius:14px;padding:0 12px;color:var(--ink)}
+.search input{flex:1;border:0;outline:0;background:none;padding:12px 0}
+main{padding:14px 14px 0}
+h2.sec{font-size:16px;margin:18px 2px 10px;font-weight:700}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 8px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;padding:8px 14px;border-radius:99px;background:#fff;border:1px solid var(--ln);font-weight:500;transition:.2s}
+.chip.on{background:var(--blue);color:#fff;border-color:var(--blue)}
+.banner{background:linear-gradient(120deg,var(--blue),#1a56c9);color:#fff;border-radius:var(--r);padding:16px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.banner b{font-size:16px;display:block}.banner span{font-size:12px;opacity:.9}.banner i{font-size:46px;font-style:normal}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fc{background:var(--card);border-radius:var(--r);overflow:hidden;box-shadow:0 2px 10px rgba(20,33,61,.06);display:flex;flex-direction:column;animation:pop .35s both}
+.fv{position:relative;height:104px;display:grid;place-items:center;font-size:54px;cursor:pointer;overflow:hidden}
+.fv img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.heart{position:absolute;top:8px;right:8px;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.92);font-size:16px;display:grid;place-items:center;z-index:2}
+.fb{padding:10px 11px 12px;display:flex;flex-direction:column;gap:3px;flex:1}
+.fb h3{margin:0;font-size:13.5px;font-weight:600}
+.fb p{margin:0;color:var(--mut);font-size:11.5px;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.fr{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:8px}
+.price{font-weight:700;color:var(--red)}
+.tag{font-size:10.5px;font-weight:600;padding:2px 8px;border-radius:99px}
+.tag.in{background:#e3f6ec;color:var(--ok)}.tag.out{background:#fde6e9;color:var(--red)}
+.add{width:34px;height:34px;border-radius:11px;background:var(--red);color:#fff;font-size:20px;line-height:1;transition:.15s}
+.add:active{transform:scale(.9)}.add:disabled{background:#c9ccd6}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:13px 18px;border-radius:14px;background:var(--red);color:#fff;font-weight:600;width:100%;transition:.15s}
+.btn:active{transform:scale(.98)}.btn.sm{width:auto;padding:8px 12px;font-size:12.5px;border-radius:10px}
+.btn.alt{background:#fff;color:var(--blue);border:1.5px solid var(--blue)}.btn.blue{background:var(--blue)}.btn.gray{background:#eceef5;color:var(--ink)}.btn.danger{background:#fde6e9;color:var(--red)}
+.card{background:var(--card);border-radius:var(--r);padding:14px;box-shadow:0 2px 10px rgba(20,33,61,.06);margin-bottom:12px;animation:pop .3s both}
+.row{display:flex;align-items:center;gap:10px}.sp{justify-content:space-between}.col{display:flex;flex-direction:column;gap:8px}
+.thumb{width:58px;height:58px;border-radius:14px;display:grid;place-items:center;font-size:30px;flex:none;position:relative;overflow:hidden}
+.thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.qty{display:flex;align-items:center;background:#f0f2f8;border-radius:11px}
+.qty button{width:30px;height:30px;font-size:18px;font-weight:600}.qty span{min-width:24px;text-align:center;font-weight:600}
+.mut{color:var(--mut);font-size:12px}
+.sum div{display:flex;justify-content:space-between;padding:5px 0}.sum .t{border-top:1px dashed var(--ln);margin-top:6px;padding-top:10px;font-weight:700;font-size:16px}
+label.f{display:block;font-weight:500;font-size:12.5px;margin:10px 0 5px}
+.in-,.fi{width:100%;padding:12px;border:1.5px solid var(--ln);border-radius:12px;background:#fff;outline:0}
+.fi:focus{border-color:var(--blue)}.fi.bad{border-color:var(--red)}
+.err{color:var(--red);font-size:11.5px;margin-top:4px;min-height:0}
+.empty{text-align:center;padding:40px 20px;color:var(--mut)}.empty i{font-style:normal;font-size:56px;display:block;margin-bottom:8px}.empty b{display:block;color:var(--ink);font-size:16px;margin-bottom:4px}
+nav.bn{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:520px;background:#fff;display:flex;justify-content:space-around;padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px));border-radius:20px 20px 0 0;box-shadow:0 -4px 20px rgba(20,33,61,.1);z-index:30}
+nav.bn button{flex:1;display:flex;flex-direction:column;align-items:center;gap:1px;font-size:10.5px;color:var(--mut);padding:6px 0;position:relative;font-weight:500}
+nav.bn button span{font-size:21px;transition:.2s}
+nav.bn button.on{color:var(--red);font-weight:700}nav.bn button.on span{transform:translateY(-2px) scale(1.12)}
+.badge{position:absolute;top:0;left:56%;background:var(--red);color:#fff;font-size:10px;font-weight:700;min-width:17px;height:17px;border-radius:99px;display:grid;place-items:center;padding:0 4px}
+.ov{position:fixed;inset:0;background:rgba(10,16,40,.55);z-index:50;display:flex;align-items:flex-end;justify-content:center;animation:fade .2s}
+.sheet{background:#fff;width:100%;max-width:520px;max-height:92vh;overflow:auto;border-radius:24px 24px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom,0px));animation:up .3s cubic-bezier(.2,.8,.2,1)}
+.sheet .big{height:170px;border-radius:18px;display:grid;place-items:center;font-size:90px;position:relative;overflow:hidden;margin-bottom:12px}
+.sheet .big img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.toast{position:fixed;left:50%;bottom:92px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 16px;border-radius:12px;z-index:99;animation:pop .25s both;max-width:90%;text-align:center}
+.badge-s{display:inline-block;padding:3px 10px;border-radius:99px;font-size:11px;font-weight:600;color:#fff}
+.st0{background:#e8890c}.st1{background:#2b7de0}.st2{background:#7b4bd6}.st3{background:#0e9aa7}.st4{background:var(--ok)}
+.trk{display:flex;margin:14px 0 4px}.trk div{flex:1;text-align:center;font-size:9.5px;color:var(--mut);position:relative;line-height:1.2}
+.trk div::before{content:'';display:block;width:16px;height:16px;border-radius:50%;background:#dfe2ec;margin:0 auto 5px;position:relative;z-index:1;transition:.3s}
+.trk div::after{content:'';position:absolute;top:7px;left:-50%;width:100%;height:2px;background:#dfe2ec}
+.trk div:first-child::after{display:none}
+.trk div.d::before{background:var(--ok)}.trk div.d::after{background:var(--ok)}.trk div.d{color:var(--ink);font-weight:600}
+.trk div.c::before{box-shadow:0 0 0 5px rgba(31,157,87,.2);animation:pulse 1.4s infinite}
+.tabs{display:flex;gap:6px;overflow-x:auto;margin-bottom:12px;scrollbar-width:none}
+.tabs button{flex:none;padding:9px 14px;border-radius:12px;background:#fff;font-weight:600;font-size:12.5px;border:1px solid var(--ln)}
+.tabs button.on{background:var(--ink);color:#fff}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.stat{background:#fff;border-radius:var(--r);padding:14px;box-shadow:0 2px 10px rgba(20,33,61,.06)}.stat b{font-size:22px;display:block}.stat span{color:var(--mut);font-size:12px}
+.bar{height:8px;border-radius:9px;background:#eceef5;overflow:hidden;flex:1}.bar i{display:block;height:100%;background:var(--blue);border-radius:9px;transition:width .5s}
+.sk{background:linear-gradient(90deg,#e9ebf2 25%,#f6f7fb 50%,#e9ebf2 75%);background-size:200% 100%;animation:sh 1.2s infinite;border-radius:var(--r);height:190px}
+.loginbox{text-align:center;padding-top:20px}
+.foot{text-align:center;color:var(--mut);font-size:11.5px;padding:22px 0 6px}
+.sw{position:relative;width:42px;height:24px;flex:none}.sw input{display:none}.sw i{position:absolute;inset:0;background:#cfd3df;border-radius:99px;transition:.2s}.sw i::after{content:'';position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:.2s}.sw input:checked+i{background:var(--ok)}.sw input:checked+i::after{left:21px}
+@keyframes pop{from{opacity:0;transform:translateY(8px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes up{from{transform:translateY(100%)}to{transform:none}}@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes sh{to{background-position:-200% 0}}@keyframes pulse{50%{box-shadow:0 0 0 8px rgba(31,157,87,0)}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+</style>
+</head>
+<body>
+<div id="app"><div id="root"></div>
+<nav class="bn" id="nav"></nav></div>
+<div id="layer"></div>
+
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script>
+const firebaseConfig={apiKey:"AIzaSyAFejYmJsLZ70AU0yCnEkEr_FTxAY1H3LE",authDomain:"nepali-online-food.firebaseapp.com",projectId:"nepali-online-food",storageBucket:"nepali-online-food.firebasestorage.app",messagingSenderId:"949435549942",appId:"1:949435549942:web:4bcbcaa1147cd4ea6504d7",measurementId:"G-QZE8Z06Y9Z"};
+let FB=null,FIREBASE_ONLINE=false;
+try{if(window.firebase){FB=firebase.initializeApp(firebaseConfig);FIREBASE_ONLINE=true;}}catch(e){console.warn("Firebase init failed",e)}
+const FS=()=>FIREBASE_ONLINE?firebase.firestore():null;
+const AUTH=()=>FIREBASE_ONLINE?firebase.auth():null;
+const RESTAURANT_ID='restaurant_001';
+const OWNER_UID='ZtLRI7IJzOd4vCzoQXzSAdpNSDI3';
+</script>
+<script>
+/* ============ Nepali Online Food — built by Niraj Xettri ============
+   Storage layer: swap DB.get/DB.set with Firebase/REST calls later. */
+const DB={
+  get(k,d){try{const v=localStorage.getItem('nof_'+k);return v===null?d:JSON.parse(v)}catch(e){return d}},
+  set(k,v){try{localStorage.setItem('nof_'+k,JSON.stringify(v));}catch(e){toast('Local storage unavailable.')} return true}
+};
+
+async function ensureCustomerAuth(){
+  if(!FIREBASE_ONLINE||!AUTH()) return null;
+  if(AUTH().currentUser) return AUTH().currentUser;
+  try{const r=await AUTH().signInAnonymously();return r.user}catch(e){console.warn('Anonymous auth failed',e);toast('Firebase customer sign-in failed. Enable Anonymous sign-in in Firebase Authentication.');return null}
+}
+function isOwner(){return !!(AUTH()&&AUTH().currentUser&&AUTH().currentUser.uid===OWNER_UID)}
+
+async function loadCloudCatalog(){
+  if(!FIREBASE_ONLINE)return;
+  try{
+    const [c,f]=await Promise.all([FS().collection('appState').doc('cats').get(),FS().collection('appState').doc('foods').get()]);
+    if(c.exists&&c.data().value)S.cats=c.data().value;
+    if(f.exists&&f.data().value)S.foods=f.data().value;
+    DB.set('cats',S.cats);DB.set('foods',S.foods);
+  }catch(e){console.warn('Catalog load failed',e)}
+}
+
+function syncCatalog(){
+  if(!FIREBASE_ONLINE)return;
+  ['cats','foods'].forEach(k=>FS().collection('appState').doc(k).onSnapshot(s=>{
+    if(!s.exists)return; const v=s.data().value;if(v===undefined)return;
+    DB.set(k,v);if(typeof S!=='undefined'&&S.foods){S[k]=v;if(!$('#layer').innerHTML&&!['checkout'].includes(S.view))render();}
+  },e=>console.warn('Catalog listener failed',k,e)));
+}
+
+async function cloudCreateOrder(o){
+  const u=await ensureCustomerAuth();
+  if(!u)throw new Error('Customer authentication unavailable');
+  o.customerUid=u.uid;o.restaurantId=RESTAURANT_ID;
+  await FS().collection('orders').doc(o.id).set(o);
+  return o;
+}
+
+function watchCustomerOrders(){
+  if(!FIREBASE_ONLINE)return;
+  ensureCustomerAuth().then(u=>{if(!u)return;
+    FS().collection('orders').where('customerUid','==',u.uid).where('restaurantId','==',RESTAURANT_ID).onSnapshot(s=>{
+      const arr=s.docs.map(d=>d.data()).sort((a,b)=>(b.created||0)-(a.created||0));
+      S.orders=arr;DB.set('orders',arr);
+      arr.forEach(o=>{if(!S.my.includes(o.id))S.my.push(o.id)});DB.set('my',S.my);
+      if(!$('#layer').innerHTML&&!['checkout'].includes(S.view))render();
+    },e=>console.warn('Customer order listener failed',e));
+  });
+}
+
+function watchAdminOrders(){
+  if(!isOwner())return;
+  FS().collection('orders').where('restaurantId','==',RESTAURANT_ID).onSnapshot(s=>{
+    S.orders=s.docs.map(d=>d.data()).sort((a,b)=>(b.created||0)-(a.created||0));
+    DB.set('orders',S.orders);
+    if(S.view==='admin'&&!$('#layer').innerHTML)render();
+  },e=>console.warn('Admin order listener failed',e));
+}
+
+async function saveOrderStatus(id,status){
+  if(!isOwner())throw new Error('Owner authentication required');
+  const ref=FS().collection('orders').doc(id);
+  const snap=await ref.get();if(!snap.exists)throw new Error('Order not found');
+  const o=snap.data();const log=Array.isArray(o.log)?o.log.slice():[];log.push({s:status,t:Date.now()});
+  await ref.update({status,log});
+}
+
+const $=s=>document.querySelector(s);
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const rs=n=>'Rs. '+Number(n||0).toLocaleString('en-IN');
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const STAT=['Pending','Confirmed','Preparing','Out for Delivery','Delivered'];
+const FEE=50;
+const SEED_CATS=['Momo','Thali','Noodles','Snacks','Sweets','Drinks'];
+const SEED_FOODS=[
+ ['Steam Chicken Momo','Momo',180,'🥟','10 juicy chicken momos with spicy tomato achar.'],
+ ['Buff Jhol Momo','Momo',200,'🍲','Buff momos dipped in warm sesame-soybean jhol.'],
+ ['Veg Fried Momo','Momo',150,'🥟','Crispy fried momos with cabbage, carrot and paneer.'],
+ ['Nepali Dal Bhat Thali','Thali',350,'🍛','Rice, dal, tarkari, saag, achar and papad.'],
+ ['Newari Khaja Set','Thali',420,'🍱','Beaten rice, choila, bhatmas, egg and aloo achar.'],
+ ['Thakali Set','Thali',480,'🍽️','Thakali style dal bhat with gundruk and mutton curry.'],
+ ['Chicken Chowmein','Noodles',170,'🍜','Wok-tossed noodles with chicken and fresh vegetables.'],
+ ['Thukpa','Noodles',210,'🥣','Himalayan noodle soup with veggies and chicken.'],
+ ['Sekuwa','Snacks',320,'🍢','Charcoal grilled marinated meat with onion salad.'],
+ ['Samosa Chat','Snacks',90,'🥠','Crushed samosa with chickpeas, yogurt and chutney.'],
+ ['Sel Roti','Sweets',80,'🍩','Traditional ring-shaped rice bread, crisp outside, soft inside.'],
+ ['Juju Dhau','Sweets',120,'🍮','Creamy king curd from Bhaktapur in a clay pot.'],
+ ['Masala Chiya','Drinks',40,'🍵','Hot milk tea with cardamom and ginger.'],
+ ['Mango Lassi','Drinks',110,'🥭','Thick chilled yogurt drink with ripe mango.']
+];
+let S={};
+function seed(){
+  S.cats=SEED_CATS.slice();
+  S.foods=SEED_FOODS.map((f,i)=>({id:'f'+(i+1),name:f[0],cat:f[1],price:f[2],emoji:f[3],desc:f[4],avail:i!==8,img:''}));
+}
+function load(){
+  S.cats=DB.get('cats',null);S.foods=DB.get('foods',null);
+  if(!S.cats||!S.foods){seed();DB.set('cats',S.cats);DB.set('foods',S.foods)}
+  S.cart=DB.get('cart',{});S.wish=DB.get('wish',[]);S.orders=DB.get('orders',[]);
+  S.customer=DB.get('customer',{name:'',phone:'',address:''});S.customers=DB.get('customers',[]);
+  S.my=DB.get('my',[]);S.admin={user:'Firebase owner',pass:''};
+  S.adminIn=isOwner();
+  S.view='home';S.cat='All';S.q='';S.atab='dash';S.of='All';S.err={};
+}
+const save=k=>DB.set(k,S[k]);
+const food=id=>S.foods.find(f=>f.id===id);
+const cartCount=()=>Object.values(S.cart).reduce((a,b)=>a+b,0);
+const COLORS=['#ffe3d6','#e0ecff','#e3f6ec','#fff1c9','#f2e3ff','#ffe0ec'];
+function vis(f){const c=COLORS[(f.id.charCodeAt(f.id.length-1)||0)%COLORS.length];
+  return {bg:'background:'+c,img:f.img?`<img src="${esc(f.img)}" alt="" loading="lazy" onerror="this.remove()">`:''}}
+
+/* ---------- Firebase auth + order sync ---------- */
+async function ensureCustomerAuth(){
+  if(!FIREBASE_ONLINE||!AUTH())return null;
+  if(AUTH().currentUser)return AUTH().currentUser;
+  try{const r=await AUTH().signInAnonymously();return r.user}catch(e){console.warn('Anonymous auth failed',e);return null}
+}
+function isOwner(){return !!(FIREBASE_ONLINE&&AUTH()&&AUTH().currentUser&&AUTH().currentUser.uid===OWNER_UID)}
+async function cloudCreateOrder(o){
+  if(!FIREBASE_ONLINE||!FS())return false;
+  const u=await ensureCustomerAuth();
+  if(!u)throw new Error('Customer sign-in failed. Enable Anonymous sign-in in Firebase Authentication.');
+  o.customerUid=u.uid;o.restaurantId=RESTAURANT_ID;
+  await FS().collection('orders').doc(o.id).set(o);
+  return true;
+}
+let adminOrdersUnsub=null;
+function normalizeAdminOrder(d){
+  const raw = typeof d.data === 'function' ? d.data() : (d || {});
+  const id = raw.id || (d && d.id) || ('ORD-'+Date.now());
+  const rid = raw.restaurantId || raw.restaurantid || '';
+  let customer = raw.customer;
+  if(!customer || typeof customer !== 'object') customer = {
+    name: raw.customerName || 'Customer',
+    phone: raw.customerPhone || '',
+    address: raw.address || '',
+    note: raw.note || ''
+  };
+  let items = raw.items;
+  if(typeof items === 'string'){
+    try { items = JSON.parse(items); } catch(e) {
+      items = [{name: items, qty: 1, price: Number(raw.total || 0)}];
+    }
+  }
+  if(!Array.isArray(items)) items=[];
+  items=items.map(x=>({
+    name:x.name || x.title || 'Item',
+    qty:Number(x.qty || x.quantity || 1),
+    price:Number(x.price || 0)
+  }));
+  let status=raw.status || 'Pending';
+  const sl=String(status).toLowerCase();
+  if(sl==='new') status='Pending';
+  else if(sl==='accepted') status='Confirmed';
+  else if(sl==='completed') status='Delivered';
+  if(!STAT.includes(status)) status='Pending';
+  return {...raw,id,restaurantId:rid,customer,items,total:Number(raw.total || raw.amount || 0),status,payment:raw.payment || 'Cash on Delivery',created:Number(raw.created || raw.timestamp || Date.now())};
+}
+function watchAdminOrders(){
+  if(!FIREBASE_ONLINE||!isOwner()) return;
+  try{if(adminOrdersUnsub)adminOrdersUnsub();}catch(e){}
+  const db=FS();
+  const apply=(docs)=>{
+    const map=new Map();
+    docs.forEach(d=>{
+      const o=normalizeAdminOrder(d);
+      if(o.restaurantId===RESTAURANT_ID || o.restaurantId==='' || o.restaurantId==null) map.set(o.id,o);
+    });
+    S.orders=[...map.values()].sort((a,b)=>(b.created||0)-(a.created||0));
+    DB.set('orders',S.orders);
+    if(S.view==='admin') render();
+  };
+  // Read the whole orders collection, then filter locally so both
+  // restaurantId and legacy restaurantid documents are supported.
+  db.collection('orders').get().then(s=>apply(s.docs)).catch(e=>{
+    console.error('Admin orders initial load failed',e);
+    toast('Cannot read orders: '+(e.code||e.message||'permission denied'));
+  });
+  const unsub=db.collection('orders').onSnapshot(s=>apply(s.docs),e=>{
+    console.error('Admin orders listener failed',e);
+    toast('Live orders error: '+(e.code||e.message||'permission denied'));
+  });
+  adminOrdersUnsub=()=>{try{unsub()}catch(e){}};
+}
+function watchCustomerOrders(){
+  if(!FIREBASE_ONLINE||!AUTH())return;
+  const u=AUTH().currentUser;if(!u)return;
+  FS().collection('orders').where('customerUid','==',u.uid).where('restaurantId','==',RESTAURANT_ID).onSnapshot(s=>{
+    const cloud=s.docs.map(d=>d.data()).sort((a,b)=>(b.created||0)-(a.created||0));
+    if(cloud.length){S.orders=cloud;try{localStorage.setItem('nof_orders',JSON.stringify(cloud));}catch(e){}}
+    if(['orders','done'].includes(S.view)&&!$('#layer').innerHTML)render();
+  },e=>console.warn('Customer order listener failed',e));
+}
+async function saveOrderStatus(id,status){
+  if(!isOwner())throw new Error('Owner login required');
+  const ref=FS().collection('orders').doc(id);
+  const snap=await ref.get();if(!snap.exists)throw new Error('Order not found');
+  const o=snap.data(),log=o.log||[];log.push({s:status,t:Date.now()});
+  await ref.update({status,log});
+}
+
+/* ---------- UI helpers ---------- */
+function toast(m){const t=document.createElement('div');t.className='toast';t.textContent=m;document.body.appendChild(t);setTimeout(()=>t.remove(),2200)}
+function sheet(h){
+  const L=$('#layer');
+  if(!L.innerHTML)history.pushState({v:S.view,sheet:1},'');
+  L.innerHTML=`<div class="ov" onclick="if(event.target===this)closeSheet()"><div class="sheet">${h}</div></div>`;
+}
+function closeSheet(){
+  const L=$('#layer'),had=L.innerHTML;L.innerHTML='';
+  if(had&&history.state&&history.state.sheet)history.back();
+}
+function go(v){
+  $('#layer').innerHTML='';S.view=v;render();window.scrollTo({top:0});
+  const st=history.state||{};
+  if(st.sheet)history.replaceState({v},'');else if(st.v!==v)history.pushState({v},'');
+}
+let lastBack=0;
+window.addEventListener('popstate',e=>{
+  const L=$('#layer');
+  if(L&&L.innerHTML){L.innerHTML='';return}
+  const v=e.state&&e.state.v;
+  if(v){if(v!==S.view){S.view=v;render();window.scrollTo({top:0})}}
+  else{
+    if(Date.now()-lastBack<2000){history.back();return}
+    lastBack=Date.now();toast('Press back again to exit');history.pushState({v:S.view},'');
+  }
+});
+window.addEventListener('offline',()=>toast('You are offline. The app still works.'));
+window.addEventListener('online',()=>toast('Back online'));
+function header(sub,search){return `<header class="top"><div class="brand"><div class="logo">🍛</div><div><h1>Nepali Online Food</h1><small>${sub}</small></div></div>${search?`<div class="search">🔍<input id="q" type="search" placeholder="Search momo, thali, chiya…" value="${esc(S.q)}" oninput="S.q=this.value;renderList()"></div>`:''}</header>`}
+const foot=()=>`<div class="foot">Built with ❤️ by Niraj Xettri</div>`;
+function empty(i,t,s,btn){return `<div class="empty"><i>${i}</i><b>${t}</b>${s}${btn||''}</div>`}
+
+/* ---------- Render ---------- */
+function render(){
+  const v=S.view,R=$('#root');
+  const map={home:vHome,wish:vWish,cart:vCart,checkout:vCheckout,done:vDone,orders:vOrders,admin:vAdmin};
+  R.innerHTML=(map[v]||vHome)();
+  if(v==='home')renderList();
+  renderNav();
+}
+function renderNav(){
+  const items=[['home','🏠','Home'],['wish','❤️','Saved'],['cart','🛒','Cart'],['orders','📦','Orders'],['admin','⚙️','Admin']];
+  const cur=S.view==='checkout'?'cart':S.view==='done'?'orders':S.view;
+  $('#nav').innerHTML=items.map(i=>`<button class="${cur===i[0]?'on':''}" onclick="go('${i[0]}')" aria-label="${i[2]}"><span>${i[1]}</span>${i[2]}${i[0]==='cart'&&cartCount()?`<b class="badge">${cartCount()}</b>`:''}</button>`).join('');
+}
+function vHome(){
+  return header('Order directly from our restaurant',true)+`<main>
+  <div class="banner"><div><b>Namaste! 🙏</b><span>Hot momo, dal bhat &amp; more. Pay cash on delivery.</span></div><i>🥟</i></div>
+  <h2 class="sec">Categories</h2>
+  <div class="chips">${['All',...S.cats].map(c=>`<button class="chip ${S.cat===c?'on':''}" onclick="S.cat=this.dataset.c;render()" data-c="${esc(c)}">${esc(c)}</button>`).join('')}</div>
+  <h2 class="sec" id="ttl">Popular food</h2><div id="list"></div>${foot()}</main>`;
+}
+function card(f){
+  const v=vis(f),w=S.wish.includes(f.id);
+  return `<div class="fc"><div class="fv" style="${v.bg}" onclick="detail('${f.id}')">${f.emoji||'🍽️'}${v.img}<button class="heart" onclick="event.stopPropagation();wish('${f.id}')" aria-label="Wishlist">${w?'❤️':'🤍'}</button></div>
+  <div class="fb"><h3>${esc(f.name)}</h3><p>${esc(f.desc)}</p><span class="tag ${f.avail?'in':'out'}" style="align-self:flex-start;margin-top:3px">${f.avail?'Available':'Sold out'}</span>
+  <div class="fr"><span class="price">${rs(f.price)}</span><button class="add" ${f.avail?'':'disabled'} onclick="addCart('${f.id}')" aria-label="Add to cart">+</button></div></div></div>`;
+}
+function renderList(){
+  const L=$('#list');if(!L)return;
+  const q=S.q.trim().toLowerCase();
+  const r=S.foods.filter(f=>(S.cat==='All'||f.cat===S.cat)&&(!q||(f.name+' '+f.desc+' '+f.cat).toLowerCase().includes(q)));
+  $('#ttl').textContent=q?`Results for "${S.q.trim()}"`:S.cat==='All'?'Popular food':S.cat;
+  L.innerHTML=r.length?`<div class="grid">${r.map(card).join('')}</div>`:empty('🔎','No food found','Try another name or category.');
+}
+function vWish(){
+  const r=S.wish.map(food).filter(Boolean);
+  return header('Your saved dishes')+`<main>${r.length?`<div class="grid">${r.map(card).join('')}</div>`:empty('🤍','No saved food yet','Tap the heart on any dish to save it.',`<br><button class="btn sm" onclick="go('home')">Browse food</button>`)}</main>`;
+}
+function detail(id){
+  const f=food(id);if(!f)return;const v=vis(f);const w=S.wish.includes(id);
+  sheet(`<div class="big" style="${v.bg}">${f.emoji||'🍽️'}${v.img}</div>
+  <div class="row sp"><h2 style="margin:0">${esc(f.name)}</h2><button onclick="wish('${id}',true)" style="font-size:24px">${w?'❤️':'🤍'}</button></div>
+  <div class="row" style="margin:6px 0 10px"><span class="mut">${esc(f.cat)}</span><span class="tag ${f.avail?'in':'out'}">${f.avail?'Available':'Sold out'}</span></div>
+  <p style="line-height:1.5;color:#444">${esc(f.desc)}</p>
+  <div class="row sp" style="margin:14px 0"><b class="price" style="font-size:20px">${rs(f.price)}</b>
+  <div class="qty"><button onclick="dq(-1)">−</button><span id="dq">1</span><button onclick="dq(1)">+</button></div></div>
+  <button class="btn" ${f.avail?'':'disabled style="background:#c9ccd6"'} onclick="addCart('${id}',+$('#dq').textContent);closeSheet()">${f.avail?'Add to cart':'Currently unavailable'}</button>`);
+}
+function dq(d){const e=$('#dq');e.textContent=Math.max(1,Math.min(20,+e.textContent+d))}
+function wish(id,fromSheet){
+  const i=S.wish.indexOf(id);i>-1?S.wish.splice(i,1):S.wish.push(id);save('wish');
+  toast(i>-1?'Removed from saved':'Saved to wishlist');
+  if(fromSheet)detail(id);
+  render();
+}
+function addCart(id,q=1){
+  const f=food(id);if(!f||!f.avail)return toast('Sorry, this item is sold out');
+  S.cart[id]=Math.min(20,(S.cart[id]||0)+q);save('cart');toast(`${f.name} added to cart`);renderNav();
+}
+function setQty(id,d){const n=(S.cart[id]||0)+d;if(n<=0)delete S.cart[id];else S.cart[id]=Math.min(20,n);save('cart');render()}
+function rmCart(id){delete S.cart[id];save('cart');render()}
+function clearCart(){if(confirm('Remove all items from cart?')){S.cart={};save('cart');render()}}
+function cartItems(){
+  // drop items that no longer exist
+  Object.keys(S.cart).forEach(id=>{if(!food(id))delete S.cart[id]});
+  return Object.keys(S.cart).map(id=>({f:food(id),q:S.cart[id]}));
+}
+const totals=its=>{const sub=its.reduce((a,i)=>a+i.f.price*i.q,0);const fee=sub?FEE:0;return{sub,fee,total:sub+fee}};
+function vCart(){
+  const its=cartItems();
+  if(!its.length)return header('Your cart')+`<main>${empty('🛒','Your cart is empty','Add something delicious to get started.',`<br><button class="btn sm" onclick="go('home')">Browse food</button>`)}</main>`;
+  const t=totals(its);
+  return header('Your cart')+`<main><div class="row sp" style="margin-bottom:8px"><b>${its.length} item${its.length>1?'s':''}</b><button class="mut" onclick="clearCart()">Clear cart</button></div>
+  ${its.map(({f,q})=>{const v=vis(f);return `<div class="card row"><div class="thumb" style="${v.bg}">${f.emoji}${v.img}</div>
+  <div style="flex:1;min-width:0"><b>${esc(f.name)}</b>${f.avail?'':'<div class="err">Sold out. Please remove.</div>'}<div class="price">${rs(f.price*q)}</div>
+  <div class="row sp" style="margin-top:6px"><div class="qty"><button onclick="setQty('${f.id}',-1)">−</button><span>${q}</span><button onclick="setQty('${f.id}',1)">+</button></div>
+  <button class="btn danger sm" onclick="rmCart('${f.id}')">Remove</button></div></div></div>`}).join('')}
+  <div class="card sum"><div><span>Subtotal</span><span>${rs(t.sub)}</span></div><div><span>Delivery fee</span><span>${rs(t.fee)}</span></div><div class="t"><span>Total</span><span>${rs(t.total)}</span></div></div>
+  <button class="btn" onclick="go('checkout')">Proceed to checkout</button></main>`;
+}
+function vCheckout(){
+  const its=cartItems();if(!its.length)return vCart();
+  const t=totals(its),c=S.customer,e=S.err;
+  return header('Checkout')+`<main>
+  <div class="card"><b>Delivery details</b>
+   <label class="f">Full name</label><input class="fi ${e.name?'bad':''}" id="cn" value="${esc(c.name)}" placeholder="e.g. Sita Sharma" autocomplete="name"><div class="err">${e.name||''}</div>
+   <label class="f">Phone number</label><input class="fi ${e.phone?'bad':''}" id="cp" value="${esc(c.phone)}" placeholder="98XXXXXXXX" inputmode="numeric" maxlength="10" autocomplete="tel"><div class="err">${e.phone||''}</div>
+   <label class="f">Delivery address</label><textarea class="fi ${e.address?'bad':''}" id="ca" rows="2" placeholder="Area, street, landmark, city">${esc(c.address)}</textarea><div class="err">${e.address||''}</div>
+   <label class="f">Note for the restaurant (optional)</label><input class="fi" id="cx" placeholder="e.g. Less spicy please"></div>
+  <div class="card"><b>Payment</b><div class="row" style="margin-top:10px;padding:12px;border:1.5px solid var(--ok);border-radius:12px;background:#f1fbf5"><span style="font-size:24px">💵</span><div style="flex:1"><b>Cash on Delivery</b><div class="mut">Pay the rider when food arrives</div></div>✅</div></div>
+  <div class="card sum"><b>Order summary</b>${its.map(i=>`<div><span>${i.q} × ${esc(i.f.name)}</span><span>${rs(i.f.price*i.q)}</span></div>`).join('')}<div><span>Delivery fee</span><span>${rs(t.fee)}</span></div><div class="t"><span>Total to pay</span><span>${rs(t.total)}</span></div></div>
+  <button class="btn" id="pb" onclick="place()">Place order · ${rs(t.total)}</button>
+  <button class="btn gray" style="margin-top:8px" onclick="go('cart')">Back to cart</button></main>`;
+}
+async function place(){
+  const name=$('#cn').value.trim(),phone=$('#cp').value.trim(),address=$('#ca').value.trim(),note=$('#cx').value.trim();
+  S.customer={name,phone,address};S.err={};
+  if(name.length<2)S.err.name='Please enter your full name.';
+  if(!/^9[78]\d{8}$/.test(phone))S.err.phone='Enter a valid 10-digit Nepali mobile number (98/97…).';
+  if(address.length<6)S.err.address='Please enter a complete delivery address.';
+  if(Object.keys(S.err).length){render();return toast('Please fix the highlighted fields')}
+  const its=cartItems();const bad=its.find(i=>!i.f.avail);
+  if(bad)return toast(`${bad.f.name} is sold out. Remove it first.`);
+  const b=$('#pb');b.disabled=true;b.textContent='Placing order…';
+  try{
+    const t=totals(its),u=await ensureCustomerAuth();
+    if(!u)throw new Error('Customer sign-in failed. Enable Anonymous sign-in in Firebase Authentication.');
+    const o={id:'NOF-'+Math.floor(10000+Math.random()*89999),restaurantId:RESTAURANT_ID,customerUid:u.uid,
+      items:its.map(i=>({id:i.f.id,name:i.f.name,emoji:i.f.emoji,price:i.f.price,qty:i.q})),
+      sub:t.sub,fee:t.fee,total:t.total,customer:{name,phone,address,note},status:'Pending',payment:'Cash on Delivery',created:Date.now(),log:[{s:'Pending',t:Date.now()}]};
+    await cloudCreateOrder(o);
+    S.orders=DB.get('orders',[]);S.orders.unshift(o);S.my.unshift(o.id);
+    const ci=S.customers.findIndex(x=>x.phone===phone),rec={name,phone,address,last:Date.now()};
+    ci>-1?S.customers[ci]=rec:S.customers.push(rec);
+    S.cart={};['orders','my','customer','customers','cart'].forEach(save);
+    S.last=o.id;S.err={};go('done');toast('Order sent to restaurant');
+  }catch(e){console.error(e);b.disabled=false;b.textContent=`Place order · ${rs(totals(its).total)}`;toast(e.message||'Could not place order')}
+}
+function vDone(){
+  const o=S.orders.find(x=>x.id===S.last);if(!o)return vOrders();
+  return header('Order confirmed')+`<main><div class="card" style="text-align:center"><div style="font-size:60px">🎉</div><h2 style="margin:4px 0">Order placed!</h2>
+  <p class="mut">Thank you, ${esc(o.customer.name)}. Your order number is</p><h3 style="margin:0;color:var(--red);font-size:22px">${o.id}</h3>
+  <p class="mut">Pay <b>${rs(o.total)}</b> in cash on delivery.</p>${tracker(o.status)}</div>
+  <button class="btn" onclick="go('orders')">Track my order</button><button class="btn gray" style="margin-top:8px" onclick="go('home')">Order more food</button></main>`;
+}
+const tracker=s=>{const i=STAT.indexOf(s);return `<div class="trk">${STAT.map((x,k)=>`<div class="${k<=i?'d':''} ${k===i?'c':''}">${x}</div>`).join('')}</div>`};
+const fdate=t=>new Date(t).toLocaleString('en-GB',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
+function vOrders(){
+  S.orders=DB.get('orders',[]);
+  const r=S.orders.filter(o=>S.my.includes(o.id));
+  return header('Order history & tracking')+`<main>${r.length?r.map(o=>`<div class="card"><div class="row sp"><b>${o.id}</b><span class="badge-s st${STAT.indexOf(o.status)}">${o.status}</span></div>
+  <div class="mut">${fdate(o.created)}</div>${tracker(o.status)}
+  <div style="margin:8px 0">${o.items.map(i=>`<div class="row sp" style="padding:2px 0"><span>${i.emoji||''} ${i.qty} × ${esc(i.name)}</span><span>${rs(i.price*i.qty)}</span></div>`).join('')}</div>
+  <div class="row sp"><b>Total (COD)</b><b class="price">${rs(o.total)}</b></div>
+  <div class="mut" style="margin:6px 0">📍 ${esc(o.customer.address)}</div>
+  <button class="btn alt sm" onclick="reorder('${o.id}')">Order again</button></div>`).join(''):empty('📦','No orders yet','Your orders will appear here.',`<br><button class="btn sm" onclick="go('home')">Order food</button>`)}</main>`;
+}
+function reorder(id){
+  const o=S.orders.find(x=>x.id===id);let n=0;
+  o.items.forEach(i=>{const f=food(i.id);if(f&&f.avail){S.cart[f.id]=(S.cart[f.id]||0)+i.qty;n++}});
+  save('cart');n?(toast(`${n} item(s) added to cart`),go('cart')):toast('Those items are not available now');
+}
+
+/* ---------- Admin ---------- */
+function vAdmin(){
+  if(!S.adminIn)return header('Admin panel')+`<main class="loginbox"><div class="card"><div style="font-size:48px">🔐</div><h2 style="margin:4px 0">Restaurant owner login</h2><p class="mut">Only the registered restaurant owner can access orders.</p>
+  <input class="fi" id="au" type="email" placeholder="Owner email" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" style="margin-bottom:10px"><input class="fi" id="ap" type="password" placeholder="Password" autocomplete="current-password" onkeydown="if(event.key==='Enter')login()">
+  <div class="err" id="ae"></div><button class="btn" style="margin-top:12px" onclick="login()">Log in securely</button>
+  <p class="mut" style="margin-top:12px">Use the email/password account you created in Firebase Authentication.</p></div>${foot()}</main>`;
+  if(!isOwner()){S.adminIn=false;return vAdmin()}
+  S.orders=DB.get('orders',[]);
+  const tabs=[['dash','📊 Dashboard'],['foods','🍽️ Foods'],['cats','🏷️ Categories'],['ord','🧾 Orders'],['set','⚙️ Settings']];
+  const body={dash:aDash,foods:aFoods,cats:aCats,ord:aOrders,set:aSet}[S.atab]();
+  return header('Admin panel')+`<main><div class="tabs">${tabs.map(t=>`<button class="${S.atab===t[0]?'on':''}" onclick="S.atab='${t[0]}';render()">${t[1]}</button>`).join('')}</div>${body}</main>`;
+}
+async function login(){
+  const u=$('#au').value.trim(),p=$('#ap').value;
+  const err=$('#ae');err.textContent='';
+  if(!u||!p){err.textContent='Enter your Firebase email and password.';return}
+  if(!FIREBASE_ONLINE||!AUTH()){err.textContent='Firebase could not initialize. Check internet connection and Firebase config.';return}
+  try{
+    const r=await AUTH().signInWithEmailAndPassword(u,p);
+    if(r.user.uid!==OWNER_UID){await AUTH().signOut();err.textContent='This account is not registered as the restaurant owner.';return}
+    S.adminIn=true;try{sessionStorage.setItem('nof_admin','1')}catch(e){}
+    watchAdminOrders();toast('Welcome, restaurant owner');render();
+  }catch(e){console.error('Owner login failed',e);err.textContent=`Login failed: ${e.code||'unknown error'}`;}
+}
+async function logout(){S.adminIn=false;try{sessionStorage.removeItem('nof_admin')}catch(e){}if(FIREBASE_ONLINE&&AUTH())try{await AUTH().signOut()}catch(e){}ensureCustomerAuth();render()}
+function aDash(){
+  const o=S.orders,today=new Date().toDateString();
+  const rev=o.filter(x=>x.status==='Delivered').reduce((a,b)=>a+b.total,0);
+  const td=o.filter(x=>new Date(x.created).toDateString()===today).length;
+  const mx=Math.max(1,...STAT.map(s=>o.filter(x=>x.status===s).length));
+  return `<div class="stats"><div class="stat"><b>${o.length}</b><span>Total orders</span></div><div class="stat"><b>${o.filter(x=>x.status==='Pending').length}</b><span>Pending now</span></div>
+  <div class="stat"><b>${rs(rev)}</b><span>Revenue (delivered)</span></div><div class="stat"><b>${td}</b><span>Orders today</span></div>
+  <div class="stat"><b>${S.foods.length}</b><span>Food items</span></div><div class="stat"><b>${S.customers.length}</b><span>Customers</span></div></div>
+  <div class="card"><b>Orders by status</b>${STAT.map((s,i)=>{const n=o.filter(x=>x.status===s).length;return `<div class="row" style="margin-top:10px"><span style="width:104px;font-size:12px">${s}</span><div class="bar"><i style="width:${n/mx*100}%"></i></div><b>${n}</b></div>`}).join('')}</div>
+  ${o.length?'':empty('🧾','No orders yet','Orders from customers will show up here.')}`;
+}
+function aFoods(){
+  return `<button class="btn" onclick="foodForm()">+ Add new food</button><div style="height:12px"></div>
+  ${S.foods.length?S.foods.map(f=>`<div class="card"><div class="row"><div class="thumb" style="${vis(f).bg}">${f.emoji}${vis(f).img}</div><div style="flex:1;min-width:0"><b>${esc(f.name)}</b><div class="mut">${esc(f.cat)}</div></div>
+  <label class="sw" title="Availability"><input type="checkbox" ${f.avail?'checked':''} onchange="toggleAvail('${f.id}',this.checked)"><i></i></label></div>
+  <div class="row sp" style="margin-top:10px"><div class="row"><span class="mut">Price Rs.</span><input class="fi" type="number" min="0" style="width:90px;padding:8px" value="${f.price}" onchange="setPrice('${f.id}',this.value)"></div>
+  <div class="row"><button class="btn gray sm" onclick="foodForm('${f.id}')">Edit</button><button class="btn danger sm" onclick="delFood('${f.id}')">Delete</button></div></div></div>`).join(''):empty('🍽️','No food items','Add your first dish.')}`;
+}
+function toggleAvail(id,v){food(id).avail=v;save('foods');toast(v?'Marked available':'Marked sold out')}
+function setPrice(id,v){v=Math.round(+v);if(!(v>=0)||v>100000){toast('Enter a valid price');return render()}food(id).price=v;save('foods');toast('Price updated')}
+function delFood(id){if(!confirm('Delete this food item?'))return;S.foods=S.foods.filter(f=>f.id!==id);delete S.cart[id];S.wish=S.wish.filter(x=>x!==id);['foods','cart','wish'].forEach(save);toast('Food deleted');render()}
+function foodForm(id){
+  const f=id?food(id):{name:'',cat:S.cats[0]||'',price:'',emoji:'🍽️',desc:'',img:'',avail:true};
+  if(!S.cats.length)return toast('Add a category first');
+  sheet(`<h3 style="margin-top:0">${id?'Edit food':'Add food'}</h3>
+  <label class="f">Name</label><input class="fi" id="fn" value="${esc(f.name)}">
+  <label class="f">Category</label><select class="fi" id="fc">${S.cats.map(c=>`<option ${c===f.cat?'selected':''}>${esc(c)}</option>`).join('')}</select>
+  <div class="row"><div style="flex:1"><label class="f">Price (Rs.)</label><input class="fi" id="fp" type="number" min="0" value="${f.price}"></div><div style="width:90px"><label class="f">Emoji</label><input class="fi" id="fe" value="${esc(f.emoji)}" maxlength="4"></div></div>
+  <label class="f">Description</label><textarea class="fi" id="fd" rows="2">${esc(f.desc)}</textarea>
+  <label class="f">Food photo</label>
+  <div id="pv" class="big" style="height:130px;font-size:48px;${vis(f).bg}"></div>
+  <div class="row"><label class="btn blue sm" style="cursor:pointer;flex:1">📷 Upload photo<input type="file" accept="image/*" id="ff" style="display:none" onchange="pickImg(this)"></label><button class="btn gray sm" onclick="S.tmpImg='';$('#fi').value='';updPv()">Remove photo</button></div>
+  <label class="f">…or paste image link (optional)</label><input class="fi" id="fi" placeholder="https://…" value="${f.img&&!f.img.startsWith('data:')?esc(f.img):''}" oninput="S.tmpImg=this.value.trim();updPv()">
+  <div class="row sp" style="margin:14px 0"><span>Available for order</span><label class="sw"><input type="checkbox" id="fa" ${f.avail?'checked':''}><i></i></label></div>
+  <div class="err" id="fer"></div><button class="btn" onclick="saveFood('${id||''}')">Save food</button><button class="btn gray" style="margin-top:8px" onclick="closeSheet()">Cancel</button>`);
+  S.tmpImg=f.img||'';updPv();
+}
+function updPv(){
+  const p=$('#pv');if(!p)return;const e=($('#fe')&&$('#fe').value)||'🍽️';
+  p.innerHTML=e+(S.tmpImg?`<img src="${esc(S.tmpImg)}" alt="" onerror="this.remove()">`:'');
+}
+function pickImg(inp){
+  const file=inp.files&&inp.files[0];if(!file)return;
+  if(!/^image\//.test(file.type))return toast('Please choose an image file');
+  const rd=new FileReader();
+  rd.onerror=()=>toast('Could not read the photo');
+  rd.onload=()=>{
+    const im=new Image();
+    im.onerror=()=>toast('Could not open that image');
+    im.onload=()=>{
+      const M=640,k=Math.min(1,M/Math.max(im.width,im.height));
+      const c=document.createElement('canvas');c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);
+      c.getContext('2d').drawImage(im,0,0,c.width,c.height);
+      S.tmpImg=c.toDataURL('image/jpeg',.75);$('#fi').value='';updPv();toast('Photo added. Tap Save food.');
+    };
+    im.src=rd.result;
+  };
+  rd.readAsDataURL(file);
+}
+function saveFood(id){
+  const d={name:$('#fn').value.trim(),cat:$('#fc').value,price:Math.round(+$('#fp').value),emoji:$('#fe').value.trim()||'🍽️',desc:$('#fd').value.trim(),img:S.tmpImg||'',avail:$('#fa').checked};
+  if(d.name.length<2)return $('#fer').textContent='Enter a food name.';
+  if(!(d.price>=0)||$('#fp').value==='')return $('#fer').textContent='Enter a valid price.';
+  if(d.img&&!/^(https?:\/\/|data:image\/)/i.test(d.img))return $('#fer').textContent='Image link must start with http:// or https://';
+  if(!d.desc)d.desc='Freshly prepared and delicious.';
+  if(id)Object.assign(food(id),d);else S.foods.unshift({id:'f'+uid(),...d});
+  if(!save('foods'))return;
+  closeSheet();toast(id?'Food updated':'Food added');render();
+}
+function aCats(){
+  return `<div class="card"><b>Add category</b><div class="row" style="margin-top:8px"><input class="fi" id="nc" placeholder="e.g. Desserts" onkeydown="if(event.key==='Enter')addCat()"><button class="btn sm" onclick="addCat()">Add</button></div></div>
+  ${S.cats.length?S.cats.map((c,i)=>`<div class="card row sp"><div><b>${esc(c)}</b><div class="mut">${S.foods.filter(f=>f.cat===c).length} items</div></div><div class="row"><button class="btn gray sm" onclick="renCat(${i})">Rename</button><button class="btn danger sm" onclick="delCat(${i})">Delete</button></div></div>`).join(''):empty('🏷️','No categories','Add a category above.')}`;
+}
+function addCat(){const v=$('#nc').value.trim();if(!v)return toast('Enter a category name');if(S.cats.some(c=>c.toLowerCase()===v.toLowerCase()))return toast('Category already exists');S.cats.push(v);save('cats');toast('Category added');render()}
+function renCat(i){const o=S.cats[i],n=(prompt('Rename category',o)||'').trim();if(!n||n===o)return;if(S.cats.some((c,k)=>k!==i&&c.toLowerCase()===n.toLowerCase()))return toast('Name already used');S.foods.forEach(f=>{if(f.cat===o)f.cat=n});S.cats[i]=n;save('cats');save('foods');toast('Category renamed');render()}
+function delCat(i){const c=S.cats[i];if(S.foods.some(f=>f.cat===c))return toast('Move or delete the foods in this category first');if(!confirm(`Delete "${c}"?`))return;S.cats.splice(i,1);save('cats');S.cat='All';toast('Category deleted');render()}
+function aOrders(){
+  if(isOwner() && !adminOrdersUnsub) watchAdminOrders();
+  const r=S.orders.filter(o=>S.of==='All'||o.status===S.of);
+  return `<div class="chips">${['All',...STAT].map(s=>`<button class="chip ${S.of===s?'on':''}" onclick="S.of='${s}';render()">${s}${s==='All'?'':' ('+S.orders.filter(o=>o.status===s).length+')'}</button>`).join('')}</div>
+  ${r.length?r.map(o=>{const i=STAT.indexOf(o.status);return `<div class="card"><div class="row sp"><b>${o.id}</b><span class="badge-s st${i}">${o.status}</span></div><div class="mut">${fdate(o.created)} · ${o.payment}</div>
+  <div style="margin:10px 0;padding:10px;background:#f6f7fb;border-radius:12px"><b>👤 ${esc(o.customer.name)}</b><br>📞 <a href="tel:${esc(o.customer.phone)}">${esc(o.customer.phone)}</a><br>📍 ${esc(o.customer.address)}${o.customer.note?`<br>📝 ${esc(o.customer.note)}`:''}</div>
+  ${o.items.map(x=>`<div class="row sp"><span>${x.qty} × ${esc(x.name)}</span><span>${rs(x.price*x.qty)}</span></div>`).join('')}
+  <div class="row sp" style="margin:8px 0"><b>Total</b><b class="price">${rs(o.total)}</b></div>
+  <div class="row"><select class="fi" style="padding:9px" onchange="setStatus('${o.id}',this.value)">${STAT.map(s=>`<option ${s===o.status?'selected':''}>${s}</option>`).join('')}</select>
+  ${i<4?`<button class="btn blue sm" style="white-space:nowrap" onclick="setStatus('${o.id}','${STAT[i+1]}')">Next ›</button>`:''}</div></div>`}).join(''):empty('🧾','No orders here','Orders with this status will appear in this list.')}`;
+}
+async function setStatus(id,s){
+  if(!isOwner())return toast('Please log in as restaurant owner first');
+  try{await saveOrderStatus(id,s);toast(`${id} → ${s}`)}catch(e){console.error(e);toast(e.message||'Could not update order')}
+}
+function aSet(){
+  return `<div class="card"><b>Restaurant owner account</b><p class="mut">Owner login is managed securely through Firebase Authentication.</p><p class="mut"><b>Restaurant ID:</b> ${RESTAURANT_ID}</p></div>
+  <div class="card"><b>Data & security</b><p class="mut">Customer orders are stored as individual Firestore documents. Only the registered owner should be allowed to read and update this restaurant's orders through Firestore Security Rules.</p></div>
+  <button class="btn gray" onclick="logout()">Log out</button>`;
+}
+function resetAll(){
+  if(!confirm('This deletes all foods, orders, customers and carts on this device. Continue?'))return;
+  Object.keys(localStorage).filter(k=>k.startsWith('nof_')).forEach(k=>localStorage.removeItem(k));
+  try{sessionStorage.clear()}catch(e){}load();toast('App reset');render();
+}
+
+/* ---------- Start ---------- */
+function init(){
+  const R=$('#root');
+  $('#layer').innerHTML=`<div class="splash" id="spl"><div class="lg">🍛</div><h1>Nepali Online Food</h1><small>Order directly from our restaurant</small><div class="ld"><i></i></div><small style="position:absolute;bottom:24px">Built by Niraj Xettri</small></div>`;
+  setTimeout(async()=>{
+    try{
+      if(!window.localStorage)throw new Error('Storage unavailable');
+      load();render();
+      if(FIREBASE_ONLINE&&AUTH()){
+        if(S.adminIn&&isOwner())watchAdminOrders();
+        const u=await ensureCustomerAuth();
+        if(u)watchCustomerOrders();
+      }
+      syncCatalog();
+      history.replaceState({root:1},'');history.pushState({v:'home'},'');
+      try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
+      const s=$('#spl');if(s){s.style.opacity=0;setTimeout(()=>{if($('#spl'))$('#layer').innerHTML=''},400)}
+    }catch(e){
+      console.error(e);$('#layer').innerHTML='';R.innerHTML=header('Something went wrong')+`<main>${empty('⚠️','Could not start the app',esc(e.message||'Unknown error'),`<br><button class="btn sm" onclick="init()">Retry</button>`)}</main>`;
+    }
+  },500);
+}
+// Live sync across tabs (simulates real-time backend): customer sees status changes made by admin
+window.addEventListener('storage',e=>{
+  if(!e.key||!e.key.startsWith('nof_')||!S.foods)return;
+  S.foods=DB.get('foods',S.foods);S.cats=DB.get('cats',S.cats);S.orders=DB.get('orders',S.orders);
+  if(!$('#layer').innerHTML&&!['checkout'].includes(S.view)&&document.activeElement.tagName!=='INPUT')render();
+});
+init();
+</script>
+</body>
+</html>
